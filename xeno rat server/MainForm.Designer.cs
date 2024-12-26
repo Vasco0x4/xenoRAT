@@ -238,22 +238,24 @@ namespace xeno_rat_server
             this.columnHeader14.Text = "Idle Time";
             this.columnHeader14.Width = 84;
             // 
-            // tabPage1
-            // 
+            // Tab Page 1
             this.tabPage1.Controls.Add(this.listView3);
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(8); // Uniform padding (multiple of 8px)
             this.tabPage1.Size = new System.Drawing.Size(1132, 546);
             this.tabPage1.TabIndex = 4;
             this.tabPage1.Text = "📜Logs";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // listView3
-            // 
+            this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 10F); // Modern, clean font
+            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(240, 240, 240); // Light gray background
+            this.tabPage1.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51); // Dark gray text
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.None; // Minimalist look, subtle borders (if any)
+
+            // ListView3 Setup
             this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader11,
-            this.columnHeader12});
+    this.columnHeader11,
+    this.columnHeader12
+});
             this.listView3.FullRowSelect = true;
             this.listView3.GridLines = true;
             this.listView3.HideSelection = false;
@@ -263,6 +265,8 @@ namespace xeno_rat_server
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.Details;
+
+            // Event Handlers
             this.listView3.SelectedIndexChanged += new System.EventHandler(this.listView3_SelectedIndexChanged);
             this.listView3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView3_MouseClick);
             // 
@@ -280,18 +284,22 @@ namespace xeno_rat_server
             // 
             this.tabPage3.Controls.Add(this.listView4);
             this.tabPage3.Location = new System.Drawing.Point(4, 34);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(8); // Uniform margins (multiple of 8px)
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(8); // Uniform padding
             this.tabPage3.Size = new System.Drawing.Size(1132, 546);
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "💡 On connect";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 10F); // Modern, clean font
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(240, 240, 240); // Light gray background
+            this.tabPage3.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51); // Dark gray text
+            this.tabPage3.BorderStyle = System.Windows.Forms.BorderStyle.None; // Minimal border for minimalist feel
+
             // 
             // listView4
             // 
             this.listView4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader13});
+this.columnHeader13});
             this.listView4.GridLines = true;
             this.listView4.HideSelection = false;
             this.listView4.Location = new System.Drawing.Point(0, 0);
@@ -300,12 +308,18 @@ namespace xeno_rat_server
             this.listView4.TabIndex = 0;
             this.listView4.UseCompatibleStateImageBehavior = false;
             this.listView4.View = System.Windows.Forms.View.Details;
+            this.listView4.BackColor = System.Drawing.Color.White; // Neutral white background for the list
+            this.listView4.ForeColor = System.Drawing.Color.FromArgb(51, 51, 51); // Dark gray text
+            this.listView4.BorderStyle = System.Windows.Forms.BorderStyle.None; // Minimalist border
+            this.listView4.Font = new System.Drawing.Font("Segoe UI", 9F); // Clean font
             this.listView4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listView4_MouseUp);
+
             // 
             // columnHeader13
             // 
             this.columnHeader13.Text = "Task";
             this.columnHeader13.Width = 1128;
+            this.columnHeader13.TextAlign = System.Windows.Forms.HorizontalAlignment.Left; // Consistent alignment (left-aligned text)
             // 
             // tabPage4
             // 
