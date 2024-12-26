@@ -367,7 +367,7 @@ namespace xeno_rat_server
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label2.Location = new System.Drawing.Point(156, 82);
+            this.label2.Location = new System.Drawing.Point(164, 82);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 19);
             this.label2.TabIndex = 8;
@@ -379,7 +379,7 @@ namespace xeno_rat_server
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(155, 135);
+            this.button1.Location = new System.Drawing.Point(163, 135);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 35);
             this.button1.TabIndex = 3;
@@ -393,7 +393,7 @@ namespace xeno_rat_server
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(155, 265);
+            this.button5.Location = new System.Drawing.Point(163, 265);
             this.button5.Margin = new System.Windows.Forms.Padding(8);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(150, 35);
@@ -415,7 +415,7 @@ namespace xeno_rat_server
             // textBox5
             // 
             this.textBox5.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox5.Location = new System.Drawing.Point(155, 235);
+            this.textBox5.Location = new System.Drawing.Point(163, 235);
             this.textBox5.Margin = new System.Windows.Forms.Padding(8);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(305, 25);
@@ -426,7 +426,7 @@ namespace xeno_rat_server
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label17.Location = new System.Drawing.Point(156, 211);
+            this.label17.Location = new System.Drawing.Point(164, 211);
             this.label17.Margin = new System.Windows.Forms.Padding(8);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(157, 19);
@@ -436,7 +436,7 @@ namespace xeno_rat_server
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox1.Location = new System.Drawing.Point(155, 104);
+            this.textBox1.Location = new System.Drawing.Point(163, 104);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(307, 25);
             this.textBox1.TabIndex = 0;
