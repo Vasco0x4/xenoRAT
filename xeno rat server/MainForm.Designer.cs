@@ -241,7 +241,7 @@ namespace xeno_rat_server
             this.tabPage1.Padding = new System.Windows.Forms.Padding(8);
             this.tabPage1.Size = new System.Drawing.Size(1132, 550);
             this.tabPage1.TabIndex = 4;
-            this.tabPage1.Text = "📜Logs";
+            this.tabPage1.Text = "Logs";
             // 
             // listView3
             // 
@@ -282,7 +282,7 @@ namespace xeno_rat_server
             this.tabPage3.Padding = new System.Windows.Forms.Padding(8);
             this.tabPage3.Size = new System.Drawing.Size(1132, 550);
             this.tabPage3.TabIndex = 5;
-            this.tabPage3.Text = "💡 Tasks";
+            this.tabPage3.Text = "Task";
             // 
             // listView4
             // 
@@ -326,7 +326,7 @@ namespace xeno_rat_server
             this.tabPage4.Padding = new System.Windows.Forms.Padding(8);
             this.tabPage4.Size = new System.Drawing.Size(1132, 550);
             this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "🔌 Listener";
+            this.tabPage4.Text = "Listener";
             // 
             // checkBox4
             // 
@@ -487,7 +487,7 @@ namespace xeno_rat_server
             this.tabPage7.Padding = new System.Windows.Forms.Padding(8);
             this.tabPage7.Size = new System.Drawing.Size(1132, 550);
             this.tabPage7.TabIndex = 2;
-            this.tabPage7.Text = "🛠 Builder";
+            this.tabPage7.Text = "Builder";
             this.tabPage7.Click += new System.EventHandler(this.tabPage7_Click);
             // 
             // label19
@@ -898,7 +898,7 @@ namespace xeno_rat_server
             this.tabPage8.Padding = new System.Windows.Forms.Padding(8);
             this.tabPage8.Size = new System.Drawing.Size(1132, 550);
             this.tabPage8.TabIndex = 3;
-            this.tabPage8.Text = "👤 About";
+            this.tabPage8.Text = "About";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
             // richTextBox1
