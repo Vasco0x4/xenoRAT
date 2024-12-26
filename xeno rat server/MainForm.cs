@@ -57,7 +57,7 @@ namespace xeno_rat_server
         {
             
             InitializeComponent();
-            this.Text = "Xeno-rat: Created by moom825 - version 1.8.7";
+            this.Text = "Xeno-rat";
             key = Utils.CalculateSha256Bytes(string_key);
 
             ListeningHandler =new Listener(OnConnect);
@@ -1810,6 +1810,11 @@ namespace xeno_rat_server
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
             LogErrors = checkBox4.Checked;
+        }
+
+        private void textBox15_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
     public static class IconInjector
