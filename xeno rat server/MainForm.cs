@@ -1816,6 +1816,11 @@ namespace xeno_rat_server
         {
 
         }
+
+        private void tabPage4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
     public static class IconInjector
     {
