@@ -334,7 +334,7 @@ namespace xeno_rat_server
             this.checkBox4.Checked = true;
             this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.checkBox4.Location = new System.Drawing.Point(56, 410);
+            this.checkBox4.Location = new System.Drawing.Point(167, 376);
             this.checkBox4.Margin = new System.Windows.Forms.Padding(8);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(146, 23);
