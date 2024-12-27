@@ -23,14 +23,14 @@ namespace xeno_rat_server.Forms
         {
             client = _client;
             InitializeComponent();
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
             comboBox2.Items.AddRange(qualitys);
             InitializeAsync();
         }
         private async Task InitializeAsync() 
         {
             ImageNode = await CreateImageNode();
-            ImageNode.AddTempOnDisconnect(TempOnDisconnect);
+            ImageNode.AddTempHandleServiceStop(TempHandleServiceStop);
             await RefreshCams();
             RecvThread();
         }
@@ -109,7 +109,7 @@ namespace xeno_rat_server.Forms
             Cameras = result;
             return result;
         }
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client || (node == ImageNode && ImageNode != null))
             {

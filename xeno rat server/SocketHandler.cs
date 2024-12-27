@@ -14,17 +14,17 @@ namespace xeno_rat_server
         public int OriginalFileSize;
         public int T_offset=1;
     }
-    public partial class SocketHandler
+    public partial class NetworkManager
     {
         public Socket sock;
-        public byte[] EncryptionKey;
+        public byte[] securityKey;
         public int socktimeout = 0;
         private bool doProtocolUpgrade = false;
-        public SocketHandler(Socket socket, byte[] _EncryptionKey) 
+        public NetworkManager(Socket socket, byte[] _securityKey) 
         {
             sock = socket;
             sock.NoDelay = true;
-            EncryptionKey =_EncryptionKey;
+            securityKey =_securityKey;
         }
 
 
@@ -145,7 +145,7 @@ namespace xeno_rat_server
                         header = Concat(header, IntToBytes(orgLen));
                     }
                     data = Concat(header, data);
-                    data = Encryption.Encrypt(data, EncryptionKey);
+                    data = Encryption.Encrypt(data, securityKey);
                     data = Concat(new byte[] { 3 }, data);//protocol upgrade byte
                     byte[] size = IntToBytes(data.Length);
                     data = Concat(size, data);
@@ -155,7 +155,7 @@ namespace xeno_rat_server
                 else 
                 {
 
-                    data = Encryption.Encrypt(data, EncryptionKey);
+                    data = Encryption.Encrypt(data, securityKey);
                     byte[] compressedData = Compression.Compress(data);
                     byte didCompress = 0;
                     int orgLen = data.Length;
@@ -212,7 +212,7 @@ namespace xeno_rat_server
                             doProtocolUpgrade = true;
                         }
                         data = BTruncate(data, 1);
-                        data = Encryption.Decrypt(data, EncryptionKey);
+                        data = Encryption.Decrypt(data, securityKey);
                         if (data[0] == 2)
                         {
                             continue;
@@ -244,7 +244,7 @@ namespace xeno_rat_server
                     {
                         data = Compression.Decompress(data, Header.OriginalFileSize);
                     }
-                    data = Encryption.Decrypt(data, EncryptionKey);
+                    data = Encryption.Decrypt(data, securityKey);
                     return data;
 
                 }

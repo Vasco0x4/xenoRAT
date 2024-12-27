@@ -54,7 +54,7 @@ namespace NAudio.CoreAudioApi.Interfaces
     /// <remarks>
     /// MSDN Reference: Unknown
     /// </remarks>
-    public enum AudioSessionDisconnectReason
+    public enum AudioSessiHandleServiceStopReason
     {
         /// <summary>
         /// The user removed the audio endpoint device.
@@ -79,7 +79,7 @@ namespace NAudio.CoreAudioApi.Interfaces
         /// <summary>
         /// The WTS session that the audio session was running in was disconnected.
         /// </summary>
-        DisconnectReasonSessionDisconnected = 4,
+        DisconnectReasonSessiHandleServiceStoped = 4,
 
         /// <summary>
         /// The (shared-mode) audio session was disconnected to make the audio endpoint device available for an exclusive-mode connection.
@@ -171,7 +171,7 @@ namespace NAudio.CoreAudioApi.Interfaces
         /// <param name="disconnectReason">The reason that the audio session was disconnected.</param>
         /// <returns>An HRESULT code indicating whether the operation succeeded of failed.</returns>
         [PreserveSig]
-        int OnSessionDisconnected(
-            [In] AudioSessionDisconnectReason disconnectReason);
+        int OnSessiHandleServiceStoped(
+            [In] AudioSessiHandleServiceStopReason disconnectReason);
     }
 }

@@ -27,7 +27,7 @@ namespace Plugin
                     {
                         int nodeid = node.sock.BytesToInt(id);
                         Node tempnode = null;
-                        foreach (Node i in node.Parent.subNodes)
+                        foreach (Node i in node.Parent.serviceConnections)
                         {
                             if (i.SetId == nodeid)
                             {

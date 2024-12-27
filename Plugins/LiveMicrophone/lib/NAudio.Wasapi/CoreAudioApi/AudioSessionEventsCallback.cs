@@ -124,10 +124,10 @@ namespace NAudio.CoreAudioApi
         /// </summary>
         /// <param name="disconnectReason">The reason that the audio session was disconnected.</param>
         /// <returns>An HRESULT code indicating whether the operation succeeded of failed.</returns>
-        public int OnSessionDisconnected(
-            [In] AudioSessionDisconnectReason disconnectReason)
+        public int OnSessiHandleServiceStoped(
+            [In] AudioSessiHandleServiceStopReason disconnectReason)
         {
-            audioSessionEventsHandler.OnSessionDisconnected(disconnectReason);
+            audioSessionEventsHandler.OnSessiHandleServiceStoped(disconnectReason);
 
             return 0;
         }

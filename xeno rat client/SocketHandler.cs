@@ -14,16 +14,16 @@ namespace xeno_rat_client
         public int OriginalFileSize;
         public int T_offset = 1;
     }
-    public class SocketHandler
+    public class NetworkManager
     {
         public Socket sock;
-        public byte[] EncryptionKey;
+        public byte[] securityKey;
         private int socktimeout = 0;
-        public SocketHandler(Socket socket, byte[] _EncryptionKey)
+        public NetworkManager(Socket socket, byte[] _securityKey)
         {
             sock = socket;
             sock.NoDelay = true;
-            EncryptionKey = _EncryptionKey;
+            securityKey = _securityKey;
         }
 
         private async Task<byte[]> RecvAllAsync_ddos_unsafer(int size)
@@ -167,7 +167,7 @@ namespace xeno_rat_client
                     header = Concat(header, IntToBytes(orgLen));
                 }
                 data = Concat(header, data);
-                data = Encryption.Encrypt(data, EncryptionKey);
+                data = Encryption.Encrypt(data, securityKey);
                 data = Concat(new byte[] { 3 }, data);//protocol upgrade byte
                 byte[] size = IntToBytes(data.Length);
                 data = Concat(size, data);
@@ -203,7 +203,7 @@ namespace xeno_rat_client
                     if (data[0] == 3)//protocol upgrade
                     {
                         data = BTruncate(data, 1);
-                        data = Encryption.Decrypt(data, EncryptionKey);
+                        data = Encryption.Decrypt(data, securityKey);
                         if (data[0] == 2)
                         {
                             continue;
@@ -235,7 +235,7 @@ namespace xeno_rat_client
                     {
                         data = Compression.Decompress(data, Header.OriginalFileSize);
                     }
-                    data = Encryption.Decrypt(data, EncryptionKey);
+                    data = Encryption.Decrypt(data, securityKey);
                     return data;
 
                 }

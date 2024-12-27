@@ -32,11 +32,11 @@ namespace xeno_rat_server.Forms
         {
             client = _client;
             InitializeComponent();
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
             StartAdd();
 
         }
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client)
             {
