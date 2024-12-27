@@ -1,9 +1,33 @@
+
+---
+
+This repository is a fork of the original project, enhanced for educational and learning purposes. The improvements compared to the base version include:
+
+
+### UI Improvements
+- Minimalist theme using Segoe UI for better user experience
+
+### Enhanced Encryption System
+- Implemented dynamic IV generation for AES encryption
+- Added custom obfuscation layer to reduce signature detection
+- Modified CBC mode and padding for improved evasion techniques
+
+### Optimized Compression System
+- Implemented custom compression format constants
+- Added DeflateStream fallback mechanism
+- Improved error handling and memory management
+- Optimized buffer sizes and compression ratios
+
+> Note: This project is actively being developed with continuous improvements to the client architecture.
+---
+
+
 # Xeno Rat
+
+Xeno Rat is a remote access tool (RAT) that is used to control a computer remotely. It is written in C# and is compatible with Windows 10, 11. It is meant to stable, completely open source, easy to use and has a lot of features.
 
 ![image](https://github.com/user-attachments/assets/51724324-526d-49dc-9ea9-83a6923295fb)
 
-
-Xeno Rat is a remote access tool (RAT) that is used to control a computer remotely. It is written in C# and is compatible with Windows 10, 11. It is meant to stable, completely open source, easy to use and has a lot of features.
 
 </span>
 
