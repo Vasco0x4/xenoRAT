@@ -178,17 +178,17 @@ namespace xeno_rat_server
             // columnHeader3
             // 
             this.columnHeader3.Text = "Hwid";
-            this.columnHeader3.Width = 80;
+            this.columnHeader3.Width = 179;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "IP";
-            this.columnHeader4.Width = 102;
+            this.columnHeader4.Width = 129;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Username";
-            this.columnHeader5.Width = 101;
+            this.columnHeader5.Width = 145;
             // 
             // columnHeader15
             // 
@@ -218,17 +218,17 @@ namespace xeno_rat_server
             // columnHeader9
             // 
             this.columnHeader9.Text = "Current Window";
-            this.columnHeader9.Width = 186;
+            this.columnHeader9.Width = 224;
             // 
             // columnHeader10
             // 
             this.columnHeader10.Text = "Ping";
-            this.columnHeader10.Width = 65;
+            this.columnHeader10.Width = 50;
             // 
             // columnHeader14
             // 
             this.columnHeader14.Text = "Idle Time";
-            this.columnHeader14.Width = 66;
+            this.columnHeader14.Width = 84;
             // 
             // tabPage1
             // 
