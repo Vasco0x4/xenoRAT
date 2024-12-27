@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace xeno_rat_client
+namespace test_rat_client
 {
     class Program
     {

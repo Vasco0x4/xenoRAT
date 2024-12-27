@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace xeno_rat_server
+namespace test_rat_server
 {
     class Utils
     {

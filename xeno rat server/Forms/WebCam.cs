@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace xeno_rat_server.Forms
+namespace test_rat_server.Forms
 {
     public partial class WebCam : Form
     {

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{310FC5BE-6F5E-479C-A246-6093A39296C0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>xeno_rat_client</RootNamespace>
-    <AssemblyName>xeno rat client</AssemblyName>
+    <RootNamespace>test_rat_client</RootNamespace>
+    <AssemblyName>test rat client</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace xeno_rat_server.Properties {
+namespace test_rat_server.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
 
-namespace xeno_rat_server
+namespace test_rat_server
 {
     class Listener
     {

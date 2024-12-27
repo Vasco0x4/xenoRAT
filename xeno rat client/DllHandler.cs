@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace xeno_rat_client
+namespace test_rat_client
 {
     class ModuleManager
     {
@@ -54,7 +54,7 @@ namespace xeno_rat_client
         }
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (new AssemblyName(args.Name).Name == "xeno rat client")
+            if (new AssemblyName(args.Name).Name == "test rat client")
             {
                 return Assembly.GetExecutingAssembly();
             }

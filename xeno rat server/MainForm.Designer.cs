@@ -1,5 +1,5 @@
 ﻿
-namespace xeno_rat_server
+namespace test_rat_server
 {
     partial class MainForm
     {
@@ -617,7 +617,7 @@ namespace xeno_rat_server
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(211, 25);
             this.textBox6.TabIndex = 39;
-            this.textBox6.Text = "Xeno-manager";
+            this.textBox6.Text = "test-manager";
             // 
             // label15
             // 
@@ -659,7 +659,7 @@ namespace xeno_rat_server
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(245, 25);
             this.textBox8.TabIndex = 41;
-            this.textBox8.Text = "Xeno";
+            this.textBox8.Text = "test";
             this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             // 
             // label13
@@ -702,7 +702,7 @@ namespace xeno_rat_server
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(207, 25);
             this.textBox10.TabIndex = 43;
-            this.textBox10.Text = "Xeno";
+            this.textBox10.Text = "test";
             // 
             // label11
             // 
@@ -723,7 +723,7 @@ namespace xeno_rat_server
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(245, 25);
             this.textBox11.TabIndex = 44;
-            this.textBox11.Text = "Xeno_manager.exe";
+            this.textBox11.Text = "test_manager.exe";
             // 
             // label10
             // 
@@ -864,7 +864,7 @@ namespace xeno_rat_server
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(251, 25);
             this.textBox15.TabIndex = 53;
-            this.textBox15.Text = "Xeno_rat_nd8912d";
+            this.textBox15.Text = "test_rat_nd8912d";
             this.textBox15.TextChanged += new System.EventHandler(this.textBox15_TextChanged);
             // 
             // label5
