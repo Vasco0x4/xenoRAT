@@ -8,7 +8,7 @@ using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Engines;
 using System.Web.Script.Serialization;
 using System.Threading.Tasks;
-using xeno_rat_client;
+using test_rat_client;
 using System.Runtime.Serialization.Formatters.Binary;
 using InfoGrab;
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace xeno_rat_client
+namespace test_rat_client
 {
     class header
     {

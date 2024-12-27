@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace xeno_rat_client
+namespace test_rat_client
 {
     class Encryption
     {

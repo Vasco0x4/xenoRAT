@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace xeno_rat_server
+namespace test_rat_server
 {
     static class Program
     {

@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using xeno_rat_client;
+using test_rat_client;
 
 
 namespace Plugin

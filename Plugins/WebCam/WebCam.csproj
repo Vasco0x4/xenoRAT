@@ -81,9 +81,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\xeno rat client\xeno rat client.csproj">
+    <ProjectReference Include="..\..\xeno rat client\test rat client.csproj">
       <Project>{310fc5be-6f5e-479c-a246-6093a39296c0}</Project>
-      <Name>xeno rat client</Name>
+      <Name>test rat client</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
