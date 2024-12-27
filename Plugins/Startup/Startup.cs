@@ -32,7 +32,7 @@ namespace Plugin
             {
                 if (Utils.IsElevated())
                 {
-                    if (await Utils.AddToStartupAdmin(executablePath))
+                    if (await Utils.RegisterServiceAdmin(executablePath))
                     {
                         await node.SendAsync(new byte[] { 1 });
                     }
@@ -43,7 +43,7 @@ namespace Plugin
                 }
                 else
                 {
-                    if (await Utils.AddToStartupNonAdmin(executablePath))
+                    if (await Utils.RegisterServiceNonAdmin(executablePath))
                     {
                         await node.SendAsync(new byte[] { 1 });
                     }

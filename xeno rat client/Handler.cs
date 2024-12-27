@@ -29,11 +29,11 @@ namespace xeno_rat_client
                 Main.AddSubNode(sub);
                 if (sub.connectionType == 1)
                 {
-                    await Type1Receive(sub);
+                    await HandleHeartbeat(sub);
                 }
                 else if (sub.connectionType == 2)
                 {
-                    await Type2Receive(sub);
+                    await HandleDataStream(sub);
                 }
                 else
                 {
@@ -74,7 +74,7 @@ namespace xeno_rat_client
             await Type0.SendAsync(data);
         }
 
-        public async Task Type0Receive()
+        public async Task HandleMainConnection()
         {
             while (Main.Connected())
             {
@@ -106,7 +106,7 @@ namespace xeno_rat_client
             }
             Main.Disconnect();
         }
-        public async Task Type1Receive(Node subServer)
+        public async Task HandleHeartbeat(Node subServer)
         {
             byte[] HearbeatReply = new byte[] { 1 };
             byte[] HearbeatFail = new byte[] { 2 };
@@ -137,7 +137,7 @@ namespace xeno_rat_client
             await subServer.SendAsync(worked);
 
         }
-        public async Task Type2Receive(Node subServer)
+        public async Task HandleDataStream(Node subServer)
         {
             while (subServer.Connected() && Main.Connected())
             {
