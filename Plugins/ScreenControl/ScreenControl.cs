@@ -80,7 +80,7 @@ namespace Plugin
                         moniter_index = node.sock.BytesToInt(data,1);
                         byte[] w = node.sock.IntToBytes(screens[moniter_index].Bounds.Width);
                         byte[] h = node.sock.IntToBytes(screens[moniter_index].Bounds.Height);
-                        await node.SendAsync(SocketHandler.Concat(w,h));
+                        await node.SendAsync(NetworkManager.Concat(w,h));
                     }
                     else if (data[0] == 5)
                     {

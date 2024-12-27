@@ -147,7 +147,7 @@ namespace xeno_rat_client
                     {
                         if (i.connectionType == 1)
                         {
-                            i.SendAsync(SocketHandler.Concat(new byte[] { 3 },
+                            i.SendAsync(NetworkManager.Concat(new byte[] { 3 },
                                 Encoding.UTF8.GetBytes("Service restart required"))).Wait();
                             Thread.Sleep(1000);
                         }

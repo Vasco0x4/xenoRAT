@@ -14,12 +14,12 @@ namespace xeno_rat_client
         public int OriginalFileSize;
         public int T_offset = 1;
     }
-    public class SocketHandler
+    public class NetworkManager
     {
         public Socket sock;
         public byte[] securityKey;
         private int socktimeout = 0;
-        public SocketHandler(Socket socket, byte[] _securityKey)
+        public NetworkManager(Socket socket, byte[] _securityKey)
         {
             sock = socket;
             sock.NoDelay = true;

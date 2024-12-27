@@ -14,13 +14,13 @@ namespace xeno_rat_server
         public int OriginalFileSize;
         public int T_offset=1;
     }
-    public partial class SocketHandler
+    public partial class NetworkManager
     {
         public Socket sock;
         public byte[] securityKey;
         public int socktimeout = 0;
         private bool doProtocolUpgrade = false;
-        public SocketHandler(Socket socket, byte[] _securityKey) 
+        public NetworkManager(Socket socket, byte[] _securityKey) 
         {
             sock = socket;
             sock.NoDelay = true;

@@ -166,7 +166,7 @@ namespace xeno_rat_server
             Node conn;
             try
             {
-                conn = new Node(new SocketHandler(sock, key), HandleServiceStop);
+                conn = new Node(new NetworkManager(sock, key), HandleServiceStop);
                 if (!(await conn.AuthenticateAsync(ID)))
                 {
                     return null;

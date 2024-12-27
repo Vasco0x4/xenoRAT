@@ -65,10 +65,10 @@ namespace xeno_rat_client
             for(int i=0;i<info.Length;i++) 
             {
                 byte[] byte_data = Encoding.UTF8.GetBytes(info[i]);
-                data = SocketHandler.Concat(data, byte_data);
+                data = NetworkManager.Concat(data, byte_data);
                 if (i != info.Length - 1) 
                 {
-                    data = SocketHandler.Concat(data, nullbyte);
+                    data = NetworkManager.Concat(data, nullbyte);
                 }
             }
             await Type0.SendAsync(data);
