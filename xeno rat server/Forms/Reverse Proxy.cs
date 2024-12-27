@@ -23,13 +23,13 @@ namespace xeno_rat_server.Forms
         {
             InitializeComponent();
             client = _client;
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
         }
         private const int TIMEOUT_SOCKET = 10;
         private const string LOCAL_ADDR = "127.0.0.1";
         private List<Node> killnodes = new List<Node>();
         private Socket new_socket = null;
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client)
             {

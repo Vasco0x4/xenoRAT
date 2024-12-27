@@ -22,7 +22,7 @@ namespace xeno_rat_server.Forms
         {
             client = _client;
             InitializeComponent();
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
             _=InitializeAsync();
         }
         public async Task InitializeAsync() 
@@ -31,7 +31,7 @@ namespace xeno_rat_server.Forms
             await FileViewer.SendType();
             await UpdateListViewNonInvoke(currentDirectory);
         }
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client)
             {

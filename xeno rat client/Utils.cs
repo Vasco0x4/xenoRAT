@@ -168,12 +168,12 @@ namespace xeno_rat_client
                 strResult.Append(b.ToString("x2"));
             return strResult.ToString().Substring(0, 20).ToUpper();
         }
-        public static async Task<Node> ConnectAndSetupAsync(Socket sock, byte[] key, int type = 0, int ID = 0, Action<Node> OnDisconnect = null)
+        public static async Task<Node> ConnectAndSetupAsync(Socket sock, byte[] key, int type = 0, int ID = 0, Action<Node> HandleServiceStop = null)
         {
             Node conn;
             try
             {
-                conn = new Node(new SocketHandler(sock, key), OnDisconnect);
+                conn = new Node(new SocketHandler(sock, key), HandleServiceStop);
                 if (!(await conn.AuthenticateAsync(type, ID)))
                 {
                     return null;

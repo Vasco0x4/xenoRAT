@@ -25,13 +25,13 @@ namespace xeno_rat_server.Forms
         {
             client = _client;
             InitializeComponent();
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
             InitializeAsync();
         }
         private async Task InitializeAsync() 
         {
             MicNode = await CreateMicNode();
-            MicNode.AddTempOnDisconnect(TempOnDisconnect);
+            MicNode.AddTempHandleServiceStop(TempHandleServiceStop);
             await RefreshMics();
             RecvThread();
         }
@@ -50,7 +50,7 @@ namespace xeno_rat_server.Forms
                 }
             }
         }
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client || (node==MicNode && MicNode!=null))
             {

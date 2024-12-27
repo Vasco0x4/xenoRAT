@@ -24,7 +24,7 @@ namespace xeno_rat_client
             {
                 int type = data[1];
                 int retid = data[2];
-                Node sub = await Main.ConnectSubSockAsync(type, retid, OnDisconnect);
+                Node sub = await Main.ConnectSubSockAsync(type, retid, HandleServiceStop);
                 sub.Parent = Main;
                 Main.AddSubNode(sub);
                 if (sub.connectionType == 1)
@@ -46,7 +46,7 @@ namespace xeno_rat_client
                 Console.WriteLine("error with subnode, subnode type=" + data[1]);
             }
         }
-        private void OnDisconnect(Node SubNode) 
+        private void HandleServiceStop(Node SubNode) 
         { 
             
         }

@@ -27,7 +27,7 @@ namespace xeno_rat_server.Forms
             client = _client;
             InitializeComponent();
 
-            client.AddTempOnDisconnect(TempOnDisconnect);
+            client.AddTempHandleServiceStop(TempHandleServiceStop);
             comboBox2.Items.AddRange(qualitys);
             InitializeAsync();
 
@@ -35,11 +35,11 @@ namespace xeno_rat_server.Forms
         private async Task InitializeAsync() 
         {
             ImageNode = await CreateImageNode();
-            ImageNode.AddTempOnDisconnect(TempOnDisconnect);
+            ImageNode.AddTempHandleServiceStop(TempHandleServiceStop);
             await RefreshMons();
             await RecvThread();
         }
-        public void TempOnDisconnect(Node node)
+        public void TempHandleServiceStop(Node node)
         {
             if (node == client || (node == ImageNode && ImageNode != null))
             {

