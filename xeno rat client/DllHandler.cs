@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace xeno_rat_client
 {
-    class DllHandler
+    class ModuleManager
     {
 
-        public DllHandler()
+        public ModuleManager()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
