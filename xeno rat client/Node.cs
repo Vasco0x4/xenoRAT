@@ -57,7 +57,7 @@ namespace xeno_rat_client
         }
 
 
-        public async Task<Node> ConnectSubSockAsync(int type, int retid, Action<Node> HandleServiceStop = null)
+        public async Task<Node> InitializeConnectionAsync(int type, int retid, Action<Node> HandleServiceStop = null)
         {
             try
             {
