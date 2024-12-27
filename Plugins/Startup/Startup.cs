@@ -30,7 +30,7 @@ namespace Plugin
             }
             else if (data[0] == 0)
             {
-                if (Utils.IsAdmin())
+                if (Utils.IsElevated())
                 {
                     if (await Utils.AddToStartupAdmin(executablePath))
                     {

