@@ -18,6 +18,8 @@ This repository is a fork of the original project, enhanced for educational and 
 - Improved error handling and memory management
 - Optimized buffer sizes and compression ratios
 
+
+**Discord:** Vasco0x4
 > Note: This project is actively being developed with continuous improvements to the client architecture.
 ---
 
