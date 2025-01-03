@@ -242,7 +242,7 @@ namespace test_rat_server
                 }
                 if (ByteArrayCompare(randomKey, data))
                 {
-                    if (!(await sock.SendAsync(new byte[] { 109, 111, 111, 109, 56, 50, 53 })))
+                    if (!(await sock.SendAsync(new byte[] { 123, 45, 67, 89, 12, 34, 56, 78, 90, 23, 45, 67, 89, 101, 112, 131 })))
                     {
                         return false;
                     }
