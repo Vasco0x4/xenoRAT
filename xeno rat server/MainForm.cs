@@ -1611,7 +1611,7 @@ namespace test_rat_server
                 {
                     return;
                 }
-                AddLog("Building client...", Color.Blue);
+                //AddLog("Building client...", Color.Blue);
                 string filePath = saveFileDialog.FileName;
                 ModuleDefMD module = ModuleDefMD.Load("stub\\test rat client.exe");
                 SetsecurityKey(module, Utils.CalculateSha256Bytes(textBox14.Text));
@@ -1657,12 +1657,12 @@ namespace test_rat_server
                 {
                     IconInjector.InjectIcon(filePath, label16.Text);
                 }
-                AddLog("Client built!", Color.Green);
+                //AddLog("Client built!", Color.Green);
                 MessageBox.Show("File saved!");
             }
             catch (Exception ex)
             {
-                AddLog("Client build failed!", Color.Red);
+                //AddLog("Client build failed!", Color.Red);
                 MessageBox.Show("An error has occurred: "+ex.Message);
             }
         }
