@@ -6,9 +6,26 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
+using System.IO;
 
 namespace test_rat_server
 {
+    class Logger
+    {
+        private static string logFile = "logs/listener.log";
+
+        public static void Log(string message, string type = "*")
+        {
+            try
+            {
+                Directory.CreateDirectory("logs");
+                string logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{type}] {message}";
+                File.AppendAllText(logFile, logMessage + Environment.NewLine);
+            }
+            catch { }
+        }
+    }
+
     class Listener
     {
         public Dictionary<int, _listener> listeners = new Dictionary<int, _listener>();
@@ -27,6 +44,7 @@ namespace test_rat_server
             {
                 if (endPoint.Port == port)
                 {
+                    Logger.Log($"Port {port} already in use", "-");
                     return true;
                 }
             }
@@ -38,6 +56,7 @@ namespace test_rat_server
             if (PortInUse(port))
             {
                 MessageBox.Show("That port is currently in use!");
+                Logger.Log($"Failed to create listener on port {port} - Port in use", "-");
             }
             else
             {
@@ -49,13 +68,13 @@ namespace test_rat_server
                 {
                     listeners[port].StartListening(ConnectCallBack);
                 }
-                catch
+                catch (Exception ex)
                 {
                     listeners[port].StopListening();
                     MessageBox.Show("There was an error using this port!");
+                    Logger.Log($"Error starting listener on port {port}: {ex.Message}", "-");
                 }
             }
-
         }
 
         public void StopListener(int port)
@@ -68,7 +87,7 @@ namespace test_rat_server
     {
         private Socket listener;
         private int port;
-        public bool listening=false;
+        public bool listening = false;
 
         public _listener(int _port)
         {
@@ -84,11 +103,13 @@ namespace test_rat_server
             listener.Bind(localEndPoint);
             listener.Listen(100);
             listening = true;
+
             while (true)
             {
                 try
                 {
                     Socket handler = await listener.AcceptAsync();
+                    Logger.Log($"New connection from {handler.RemoteEndPoint}", "+");
                     connectCallBack(handler);
                 }
                 catch (ObjectDisposedException)
@@ -104,10 +125,22 @@ namespace test_rat_server
 
         public void StopListening()
         {
-            listening= false;
-            try { listener.Shutdown(SocketShutdown.Both); } catch { }
-            try { listener.Close(); } catch { }
-            try { listener.Dispose(); } catch { }
+            listening = false;
+            try
+            {
+                listener.Shutdown(SocketShutdown.Both);
+            }
+            catch { }
+            try
+            {
+                listener.Close();
+            }
+            catch { }
+            try
+            {
+                listener.Dispose();
+            }
+            catch { }
         }
     }
 }
