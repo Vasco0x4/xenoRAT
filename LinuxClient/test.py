@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-15 -*-
 
-### -*- coding: utf-8 -*-
+## -*- coding: utf-8 -*-
 
 import socket
 import random
